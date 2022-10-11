@@ -27,10 +27,18 @@ const fetchMoviesListByGenres = (id, genres) => {
         makeCategoryElement(`${genres}_movies`, data.results);
     })
     .catch(err =>  console.log(err));
-}
 
+
+}//Trying to add search bar
+// const searchInput = document.querySelectorAll("[data-search]")
+// searchInput.addEventListener('input' , (getValue) => {
+//     const value = getValue.target.value
+// })
+//up here
 const makeCategoryElement = (category, data) => {
     main.innerHTML += `
+    <input type="Search id="search" data-search>
+
     <div class="movie-list">
 
         <button class="pre-btn"><img src="img/pre.png" alt=""></button>
