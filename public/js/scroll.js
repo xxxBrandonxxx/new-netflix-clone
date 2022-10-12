@@ -4,6 +4,7 @@ const setupScrolling = () => {
     const preBtn = [...document.querySelectorAll('.pre-btn')];
 
     conainter.forEach((item, i) => {
+        //getBoundingClientRect - method will return container's dimensions
         let containerDimensions = item.getBoundingClientRect();
         let containerWidth = containerDimensions.width;
 

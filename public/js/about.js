@@ -4,12 +4,12 @@ let movie_id = location.pathname;
 fetch(`${movie_detail_http}${movie_id}?` + new URLSearchParams({
     api_key: api_key
 }))
-.then(res => res.json())
-.then(data => {
-    setupMovieInfo(data);
-})
+    .then(res => res.json())
+    .then(data => {
+        setupMovieInfo(data);
+    })
 
-const setupMovieInfo = (data) => {
+    const setupMovieInfo = (data) => {
     const movieName = document.querySelector('.movie-name');
     const genres = document.querySelector('.genres');
     const des = document.querySelector('.des');
@@ -17,17 +17,17 @@ const setupMovieInfo = (data) => {
     const backdrop = document.querySelector('.movie-info');
 
     //Loop to get genres
-    title.innerHTML = movieName.innerHTML = data.title; 
+    title.innerHTML = movieName.innerHTML = data.title;
     genres.innerHTML = `${data.release_date.split('-')[0]} | `;
-    for(let i = 0; i < data.genres.length; i++){
+    for (let i = 0; i < data.genres.length; i++) {
         genres.innerHTML += data.genres[i].name + formatString(i, data.genres.length);
     }
     // checking if genres are adult
-    if(data.adult == true){
+    if (data.adult == true) {
         genres.innerHTML += ' | +18';
     }
 
-    if(data.backdrop_path == null){
+    if (data.backdrop_path == null) {
         data.backdrop_path = data.poster_path;
     }
 
@@ -45,51 +45,51 @@ const formatString = (currentIndex, maxIndex) => {
 fetch(`${movie_detail_http}${movie_id}/credits?` + new URLSearchParams({
     api_key: api_key
 }))
-.then(res => res.json())
-.then(data => {
-    const cast = document.querySelector('.starring');
-    for(let i = 0; i < 5; i++){
-        cast.innerHTML += data.cast[i].name + formatString(i, 5);
-    }
-})
+    .then(res => res.json())
+    .then(data => {
+        const cast = document.querySelector('.starring');
+        for (let i = 0; i < 5; i++) {
+            cast.innerHTML += data.cast[i].name + formatString(i, 5);
+        }
+    })
 
 // fetching video clips
 
 fetch(`${movie_detail_http}${movie_id}/videos?` + new URLSearchParams({
     api_key: api_key
 }))
-.then(res => res.json())
-.then(data => {
-    let trailerContainer = document.querySelector('.trailer-container');
+    .then(res => res.json())
+    .then(data => {
+        let trailerContainer = document.querySelector('.trailer-container');
 
-    let maxClips = (data.results.length > 4) ? 4 : data.results.length;
+        let maxClips = (data.results.length > 4) ? 4 : data.results.length;
 
-    for(let i = 0; i < maxClips; i++){
-        trailerContainer.innerHTML += `
+        for (let i = 0; i < maxClips; i++) {
+            trailerContainer.innerHTML += `
         <iframe src="https://youtube.com/embed/${data.results[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         `;
-    }
-})
+        }
+    })
 
 // fetch recommendations
 
 fetch(`${movie_detail_http}${movie_id}/recommendations?` + new URLSearchParams({
     api_key: api_key
 }))
-.then(res => res.json())
+    .then(res => res.json())
 
-// Run loop to only create 16 movie cards
-.then(data => {
-    let container = document.querySelector('.recommendations-container');
-    for(let i = 0; i < 16; i++){
-        if(data.results[i].backdrop_path == null){
-            i++;
-        }
-        container.innerHTML += `
+    // Run loop to only create 16 movie cards
+    .then(data => {
+        let container = document.querySelector('.recommendations-container');
+        for (let i = 0; i < 16; i++) {
+            if (data.results[i].backdrop_path == null) {
+                i++;
+            }
+            container.innerHTML += `
         <div class="movie" onclick="location.href = '/${data.results[i].id}'">
             <img src="${img_url}${data.results[i].backdrop_path}" alt="">
             <p class="movie-title">${data.results[i].title}</p>
         </div>
         `;
-    }
-})
+        }
+    })

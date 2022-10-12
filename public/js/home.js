@@ -57,7 +57,7 @@ const makeCategoryElement = (category, data) => {
 
     </div>
     `;
-    
+
     makeCards(category, data);
 }
 
@@ -100,12 +100,16 @@ const updateList = () => {
     list = fetchWishlist();
 }
 
+// In movie data. We have "backdrop_path" witch contain movie images. 
+// But in some cases we will get "poster_path" for image instead of "backdrop_path"
+// And in some cases TMDB give us none of us. so to make sure that we are getting the image,
+// check for this condition.
 const makeCards = (id, data) => {
     const movieContainer = document.getElementById(id);
     data.forEach((item, i) => {
         if(item.backdrop_path == null){
             item.backdrop_path = item.poster_path;
-            if(item.backdrop_path == null){ // TODO:
+            if(item.backdrop_path == null){
                 return;
             }
         }
