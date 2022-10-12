@@ -1,6 +1,7 @@
 const main = document.querySelector('.main');
 let list = [];
-
+ 
+//Use fetch method to make get request to genres list link
 fetch(genres_list_http + new URLSearchParams({
     api_key: api_key
 }))
@@ -8,6 +9,8 @@ fetch(genres_list_http + new URLSearchParams({
 .then(async data => {
     updateList();
     data.genres.unshift({id: 0, name: 'My List'});
+
+ //Fetch movie's data according to the genre we fetched
     data.genres.forEach(item => {
         fetchMoviesListByGenres(item.id, item.name);
     });
@@ -16,6 +19,7 @@ fetch(genres_list_http + new URLSearchParams({
     }, 1000);
 });
 
+//Passing another parameter to get specific genres
 const fetchMoviesListByGenres = (id, genres) => {
     fetch(movie_genres_http + new URLSearchParams({
         api_key: api_key,
@@ -34,11 +38,11 @@ const fetchMoviesListByGenres = (id, genres) => {
 // searchInput.addEventListener('input' , (getValue) => {
 //     const value = getValue.target.value
 // })
+// <input type="Search id="search" data-search>
 //up here
 const makeCategoryElement = (category, data) => {
     main.innerHTML += `
-    <input type="Search id="search" data-search>
-
+   
     <div class="movie-list">
 
         <button class="pre-btn"><img src="img/pre.png" alt=""></button>
@@ -53,6 +57,7 @@ const makeCategoryElement = (category, data) => {
 
     </div>
     `;
+    
     makeCards(category, data);
 }
 
